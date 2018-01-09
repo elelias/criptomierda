@@ -8,7 +8,7 @@ Created on Sun Jan  7 21:09:10 2018
 from scipy import stats
 import datetime
 
-def trend_stats(df, last_minutes = 30, window = 15, current_time = None):
+def trend_stats(df, last_minutes = 30, window = 15, current_time = None, alpha = 0.01):
     """
     Compute trend statistics. 
     @df: Price dataframe
@@ -41,7 +41,7 @@ def trend_stats(df, last_minutes = 30, window = 15, current_time = None):
     (t, p) = stats.ttest_1samp(x, 0, nan_policy='omit')
     #print('t-statistic = %6.3f pvalue = %6.4f' %  (t, p))
     trend = +1 if (t > 0) else -1 
-    is_significant = (p < 0.01)
+    is_significant = (p < alpha)
     return (open_mean, der_mean, der_sem, t, p, trend, is_significant, trend*is_significant)
     
 def decision(current, available, value_mean, der_mean, der_sem, t, p, 
